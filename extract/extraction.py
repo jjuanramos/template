@@ -20,8 +20,7 @@ def get_dataframe() -> pd.DataFrame:
 		'Periodo': 'periodo',
 		'Total': 'valor'
 	})
-	df.valor = df.valor.replace(",", ".", regex=True)
-	df.valor = df.valor.astype(float)
+	df.valor = df.valor.replace(",", ".", regex=True).astype(float)
 	df['_loaded_at'] = datetime.now()
 	df['_batch_id'] = datetime.now().strftime('%Y%m%d')
 	df.drop(columns=['periodo'])
