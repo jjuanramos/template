@@ -24,8 +24,6 @@ def get_dataframe() -> pd.DataFrame:
 	df.valor = df.valor.astype(float)
 	df['_loaded_at'] = datetime.now()
 	df['_batch_id'] = datetime.now().strftime('%Y%m%d')
-	df['year'] = df.periodo.str.slice(0, 4).astype(int)
-	df['quarter'] = df.periodo.str.slice(5, 6).astype(int)
 	df.drop(columns=['periodo'])
 	return df
 
