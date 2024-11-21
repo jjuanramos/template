@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Tuple
 
-DATABASE_PATH = '../.duckdb/analytics.duckdb'
+DATABASE_PATH = '../sources/uyv/analytics.duckdb'
 TABLE_NAME = "table25171"
 SCHEMA_NAME = "raw"
 URL = "https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/25171.csv"
