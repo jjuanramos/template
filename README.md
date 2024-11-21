@@ -1,48 +1,40 @@
-# Evidence Template Project
+# Urbanismo y Vivienda
 
-## Using Codespaces
+[Mapa](https://github.com/ufoe/d3js-geojson/blob/master/Spain.json), `woe_name` es el nombre de la columna que indica la CCAA.
 
-If you are using this template in Codespaces, click the `Start Evidence` button in the bottom status bar. This will install dependencies and open a preview of your project in your browser - you should get a popup prompting you to open in browser.
+De [GeoJSON Spec](https://gist.github.com/sgillies/1233327#file-geojson-spec-1-0-L50):
 
-Or you can use the following commands to get started:
+2. GeoJSON Objects
+==================
 
-```bash
-npm install
-npm run sources
-npm run dev -- --host 0.0.0.0
-```
+GeoJSON always consists of a single object. This object (referred to as the
+GeoJSON object below) represents a geometry, feature, or collection of
+features.
 
-See [the CLI docs](https://docs.evidence.dev/cli/) for more command information.
+* The GeoJSON object may have any number of members (name/value pairs).
 
-**Note:** Codespaces is much faster on the Desktop app. After the Codespace has booted, select the hamburger menu → Open in VS Code Desktop.
+* The GeoJSON object must have a member with the name "type". This member's
+  value is a string that determines the type of the GeoJSON object.
 
-## Get Started from VS Code
+* The value of the type member must be one of: "Point", "MultiPoint",
+  "LineString", "MultiLineString", "Polygon", "MultiPolygon",
+  "GeometryCollection", "Feature", or "FeatureCollection". The case of the type
+  member values must be as shown here.
 
-The easiest way to get started is using the [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=Evidence.evidence-vscode):
+* A GeoJSON object may have an optional "crs" member, the value of which must
+  be a coordinate reference system object (see `3. Coordinate Reference System
+  Objects`_).
 
-
-
-1. Install the extension from the VS Code Marketplace
-2. Open the Command Palette (Ctrl/Cmd + Shift + P) and enter `Evidence: New Evidence Project`
-3. Click `Start Evidence` in the bottom status bar
-
-## Get Started using the CLI
-
-```bash
-npx degit evidence-dev/template my-project
-cd my-project 
-npm install 
-npm run sources
-npm run dev 
-```
-
-Check out the docs for [alternative install methods](https://docs.evidence.dev/getting-started/install-evidence) including Docker, Github Codespaces, and alongside dbt.
+* A GeoJSON object may have a "bbox" member, the value of which must be a
+  bounding box array (see `4. Bounding Boxes`_).
 
 
+[Area Map Evidence](https://docs.evidence.dev/components/area-map/).
+Apuntes:
+- Probablemente, con apuntar a la url de Github nos valga en GeoJSONUrl
+- areaCol tendrá que indicar la Comunidad Autónoma, con el mismo formato que el GeoJSON.
+- geoId apunta a la columna equivalente en el GeoJSON, en nuestro caso `woe_name`.
 
-## Learning More
 
-- [Docs](https://docs.evidence.dev/)
-- [Github](https://github.com/evidence-dev/evidence)
-- [Slack Community](https://slack.evidence.dev/)
-- [Evidence Home Page](https://www.evidence.dev)
+[Leaflet Providers](https://leaflet-extras.github.io/leaflet-providers/preview/).
+
