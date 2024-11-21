@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: uyv
+type: duckdb
+options:
+  filename: analytics.duckdb
