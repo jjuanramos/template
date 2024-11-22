@@ -1,8 +1,14 @@
 
 -- testing stuff
 with base as (
-    select * from raw.table25171
+    select
+        * exclude (periodo),
+        cast(substr(periodo, 1, 4) as int) as year,
+        cast(substr(periodo, 6, 1) as int) as quarter
+    from raw.table25171
     where comunidad_autonoma is not null
+        and tipo_vivienda = 'General'
+        and indice_tasa = 'Índice'
 ),
 
 geojsoned as (
@@ -31,4 +37,9 @@ geojsoned as (
     from base
 )
 
-select * from geojsoned
+select
+    ccaa_geojson,
+    year,
+    quarter,
+    valor
+from geojsoned

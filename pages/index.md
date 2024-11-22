@@ -2,45 +2,43 @@
 title: Welcome to Evidence
 ---
 
-<Details title='How to edit this page'>
+```sql gj
+  select * from geojsoned
+```
+<Dropdown data={gj} name=year value=year>
+    <DropdownOption value="%" valueLabel="Escoge año"/>
+</Dropdown>
 
-  This page can be found in your project at `/pages/index.md`. Make a change to the markdown file and save it to see the change take effect in your browser.
-</Details>
-
-```sql categories
-  select
-      category
-  from needful_things.orders
-  group by category
+```sql geo_by_year
+  select * from geojsoned
+  where year = ${input.year.value}
 ```
 
-<Dropdown data={categories} name=category value=category>
-    <DropdownOption value="%" valueLabel="All Categories"/>
+<AreaMap 
+    data={geo_by_year} 
+    areaCol=ccaa_geojson
+    geoJsonUrl='https://github.com/codeforgermany/click_that_hood/blob/main/public/data/spain-provinces.geojson'
+    geoId=woe_name
+    value=valor
+/>
+
+<Dropdown data={gj} name=ccaa_geojson value=ccaa_geojson>
+    <DropdownOption value="%" valueLabel="Todas las Comunidades Autónomas"/>
 </Dropdown>
 
-<Dropdown name=year>
-    <DropdownOption value=% valueLabel="All Years"/>
-    <DropdownOption value=2019/>
-    <DropdownOption value=2020/>
-    <DropdownOption value=2021/>
-</Dropdown>
-
-```sql orders_by_category
+```sql index_by_ccaa
   select 
-      date_trunc('month', order_datetime) as month,
-      sum(sales) as sales_usd,
-      category
-  from needful_things.orders
-  where category like '${inputs.category.value}'
-  and date_part('year', order_datetime) like '${inputs.year.value}'
-  group by all
-  order by sales_usd desc
+      year,
+      valor,
+      ccaa_geojson
+  from uyv.geojsoned
+  where ccaa_geojson like '${inputs.ccaa_geojson.value}'
+  order by year
 ```
 
 <BarChart
-    data={orders_by_category}
-    title="Sales by Month, {inputs.category.label}"
-    x=month
-    y=sales_usd
-    series=category
+    data={index_by_ccaa}
+    title="Índices por año en {inputs.ccaa_geojson.label}"
+    x=year
+    y=valor
 />
