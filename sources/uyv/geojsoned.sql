@@ -4,11 +4,11 @@ with base as (
     select
         * exclude (periodo),
         cast(substr(periodo, 1, 4) as int) as year,
-        cast(substr(periodo, 6, 1) as int) as quarter
+        cast(substr(periodo, 6, 1) as int) as quarter,
+		make_date(year, (quarter * 3) - 2, 1) as fecha
     from raw.table25171
     where comunidad_autonoma is not null
         and tipo_vivienda = 'General'
-        and indice_tasa = 'Índice'
 ),
 
 geojsoned as (
@@ -41,5 +41,7 @@ select
     ccaa_geojson,
     year,
     quarter,
-    valor
+    valor,
+	fecha,
+	indice_tasa
 from geojsoned

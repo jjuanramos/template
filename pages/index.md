@@ -1,17 +1,22 @@
 ---
-title: Welcome to Evidence
+title: Urbanismo y Vivienda
 ---
 
 ```sql gj
-  select * from geojsoned
+  select * from uyv.geojsoned
+  where indice_tasa = 'Variación trimestral'
 ```
-<Dropdown data={gj} name=year value=year>
-    <DropdownOption value="%" valueLabel="Escoge año"/>
-</Dropdown>
+<Dropdown
+	data={gj}
+	name=chosen_year
+	value=year
+	title="Escoge un año"
+	defaultValue='2024'
+/>
 
 ```sql geo_by_year
-  select * from geojsoned
-  where year = ${input.year.value}
+  select * from ${gj}
+  where year = ${inputs.chosen_year.value}
 ```
 
 <AreaMap 
@@ -22,23 +27,26 @@ title: Welcome to Evidence
     value=valor
 />
 
-<Dropdown data={gj} name=ccaa_geojson value=ccaa_geojson>
-    <DropdownOption value="%" valueLabel="Todas las Comunidades Autónomas"/>
-</Dropdown>
+<Dropdown
+	data={gj}
+	name=ccaa_geojson
+	value=ccaa_geojson
+	title="Escoge comunidad autónoma"
+	defaultValue='Comunidad Valenciana'
+/>
 
 ```sql index_by_ccaa
   select 
-      year,
-      valor,
-      ccaa_geojson
-  from uyv.geojsoned
-  where ccaa_geojson like '${inputs.ccaa_geojson.value}'
-  order by year
+      fecha,
+      valor
+  from ${gj}
+  where ccaa_geojson = '${inputs.ccaa_geojson.value}'
+	and year >= 2020
 ```
 
 <BarChart
     data={index_by_ccaa}
-    title="Índices por año en {inputs.ccaa_geojson.label}"
-    x=year
+    title="Variaciones Trimestrales del IPC en {inputs.ccaa_geojson.label}, desde 2020"
+    x=fecha
     y=valor
 />
