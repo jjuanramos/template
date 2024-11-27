@@ -4,9 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Tuple
 
-DATABASE_PATH = '../sources/uyv/analytics.duckdb'
-TABLE_NAME = "table25171"
-SCHEMA_NAME = "raw"
+FILE_PATH = '../sources/uyv/analytics.parquet'
 URL = "https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/25171.csv"
 
 """Download data and do basic renamings and castings"""
@@ -21,34 +19,21 @@ def get_dataframe() -> pd.DataFrame:
 		'Total': 'valor'
 	})
 	df.valor = df.valor.replace(",", ".", regex=True).astype(float)
-	df['_loaded_at'] = datetime.now()
-	df['_batch_id'] = datetime.now().strftime('%Y%m%d')
 	df.drop(columns=['periodo'])
 	return df
-
-"""Connect to database"""
-def connect_to_db_and_load() -> Tuple[int, datetime]:
-	df = get_dataframe()
-	# Make sure path exists
-	Path(DATABASE_PATH).parent.mkdir(parents=True, exist_ok=True)
-	with duckdb.connect(DATABASE_PATH) as conn:
-		conn.sql(f"create schema if not exists {SCHEMA_NAME}")
-		conn.sql(f"create or replace table {SCHEMA_NAME}.{TABLE_NAME} as select * from df")
-		
-		# Check data was loaded properly
-		result = conn.sql(f"""
-			select
-				count(1) as rows,
-				max(_loaded_at) as last_load 
-			from {SCHEMA_NAME}.{TABLE_NAME}
-		""").fetchone()
-		return result
 	
 def main() -> int:
 	print("Ejecutando proceso...")
 	try:
-		rows, last_load = connect_to_db_and_load()
-		print(f"Cargadas {rows:,} filas en {last_load}")
+		df = get_dataframe()
+		df.to_parquet(
+			FILE_PATH,
+			compression='snappy',  # Compresión eficiente y rápida
+			index=False,          # Evitar incluir el índice si no es necesario
+			engine='pyarrow',     # Usar explícitamente PyArrow
+			write_statistics=False # Evitar metadatos variables
+		)
+		print(f"Cargadas {df.shape[0]} filas en {datetime.now()}")
 		return 0
 	except Exception as e:
 		print(f"Error en el proceso: {e}")
