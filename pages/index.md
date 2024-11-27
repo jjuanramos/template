@@ -12,7 +12,7 @@ title: Urbanismo y Vivienda
 	name=chosen_year
 	value=year
 	title='Escoge un año'
-	defaultValue=2024
+	defaultValue=2023
 />
 
 ```sql geo_by_year
