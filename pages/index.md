@@ -6,19 +6,29 @@ title: Urbanismo y Vivienda
   select * from uyv.geojsoned
   where indice_tasa = 'Variación trimestral'
 ```
+<!-- Failing to get the default value to show -->
 <Dropdown
 	data={gj}
 	name=chosen_year
 	value=year
-	title="Escoge un año"
-	defaultValue='2024'
+	title='Escoge un año'
+	defaultValue=2024
 />
 
 ```sql geo_by_year
   select * from ${gj}
   where year = ${inputs.chosen_year.value}
+	and quarter = 3
+	and ccaa_geojson is not null
 ```
 
+<!--
+	Failing to see the local maps here, too.
+	They are available at '../mapas':
+		- es.geojson from https://simplemaps.com/gis/country/es.
+		- spain.geojson from https://data.metabolismofcities.org/library/maps/35492/view/
+	Neither work.
+-->
 <AreaMap 
     data={geo_by_year} 
     areaCol=ccaa_geojson
