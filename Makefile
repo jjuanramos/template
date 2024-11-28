@@ -1,4 +1,4 @@
-all: extract serve
+all: serve
 
 extract:
 	rm -rf sources/uyv/analytics.duckdb
