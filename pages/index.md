@@ -22,19 +22,13 @@ title: Urbanismo y Vivienda
 	and ccaa_geojson is not null
 ```
 
-<!--
-	Failing to see the local maps here, too.
-	They are available at '../mapas':
-		- es.geojson from https://simplemaps.com/gis/country/es.
-		- spain.geojson from https://data.metabolismofcities.org/library/maps/35492/view/
-	Neither work.
--->
 <AreaMap 
     data={geo_by_year} 
     areaCol=ccaa_geojson
-    geoJsonUrl='https://github.com/codeforgermany/click_that_hood/blob/main/public/data/spain-provinces.geojson'
-    geoId=woe_name
+    geoJsonUrl='/mapas/spain.geojson'
+    geoId=acom_name
     value=valor
+    title='Variación trimestral del IPC el tercer trimestre de {inputs.chosen_year.label}'
 />
 
 <Dropdown
