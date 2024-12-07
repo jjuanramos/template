@@ -6,13 +6,13 @@ title: Urbanismo y Vivienda
   select * from uyv.geojsoned
   where indice_tasa = 'Variación trimestral'
 ```
-<!-- Failing to get the default value to show -->
+
 <Dropdown
 	data={gj}
 	name=chosen_year
 	value=year
 	title='Escoge un año'
-	defaultValue=2023
+	defaultValue={2023}
 />
 
 ```sql geo_by_year
@@ -21,7 +21,7 @@ title: Urbanismo y Vivienda
 	and quarter = 3
 	and ccaa_geojson is not null
 ```
-
+*Cambia el año escogido arriba para ver la variación trimestral del IPC del tercer trimestre de ese año en el mapa.*
 <AreaMap 
     data={geo_by_year} 
     areaCol=ccaa_geojson
